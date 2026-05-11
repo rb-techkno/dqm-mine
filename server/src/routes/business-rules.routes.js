@@ -8,6 +8,7 @@ const router = express.Router();
 export const getBusinessRules = async () => {
   const dbId = getDbId();
   const res = await pool.query(`SELECT * FROM rules WHERE db_id = $1`,[dbId]);
+  console.log('Fetched business rules for DB:', dbId, res.rows);
   return res.rows;
 };
 
