@@ -23,11 +23,57 @@ const validateReadOnlyQuery = (rawQuery) => {
   return null;
 };
 
+
+
+
 function QueryExplorerPage() {
   const [query, setQuery] = useState(INITIAL_QUERY);
   const [executing, setExecuting] = useState(false);
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
+
+const exportResultsToCSV = () => {
+  if (!results?.rows?.length) return;
+
+  // Get keys directly from row object
+  const headers = Object.keys(results.rows[0]);
+
+  // Header row
+  const csvHeaders = headers.join(",");
+
+  // Data rows
+  const csvRows = results.rows.map((row) =>
+    headers
+      .map((header) => {
+        const value = row[header];
+
+        if (value === null || value === undefined) return "";
+
+        const escapedValue = String(value).replace(/"/g, '""');
+
+        return `"${escapedValue}"`;
+      })
+      .join(",")
+  );
+
+  const csvContent = [csvHeaders, ...csvRows].join("\n");
+
+  const blob = new Blob([csvContent], {
+    type: "text/csv;charset=utf-8;",
+  });
+
+  const downloadUrl = URL.createObjectURL(blob);
+
+  const tempLink = document.createElement("a");
+  tempLink.href = downloadUrl;
+  tempLink.setAttribute("download", "query-results.csv");
+
+  document.body.appendChild(tempLink);
+  tempLink.click();
+  document.body.removeChild(tempLink);
+
+  URL.revokeObjectURL(downloadUrl);
+};
 
   const handleExecute = async () => {
     const validationError = validateReadOnlyQuery(query);
@@ -120,9 +166,12 @@ function QueryExplorerPage() {
                       {results.mock ? "Mock Data" : "Real Data"}
                     </span>
                   </div>
-                  <button className="flex items-center gap-1.5 text-xs font-bold text-slate-500 hover: hover:text-slate-700 transition-colors">
-                    <Download size={14} /> Export CSV
-                  </button>
+<button
+  onClick={exportResultsToCSV}
+  className="flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-700 transition-colors"
+>
+  <Download size={14} /> Export CSV
+</button>
                 </div>
                 <Table
                   columns={columns}
