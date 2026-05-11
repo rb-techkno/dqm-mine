@@ -13,7 +13,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://dqm-mine-backend.onrender.com',
+        target: 'https://dqm-mine-backend.onrender.com:5000',
         changeOrigin: true,
       },
     },
