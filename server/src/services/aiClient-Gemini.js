@@ -2,9 +2,8 @@
 import { setTimeout as sleep } from "timers/promises";
 
 export async function callLLM(prompt, modelName, apiKey, retries = 3, delay = 5000) {
-  const finalApiKey = apiKey || "AIzaSyC6dWWRD7r6wZVJ3nB4ueSpEb382JJrtOg";
-  // const apiKey = "AIzaSyD5tvOgZSo0C6egOG1D5F-bRFzYMUpUCOs";
-  // const apiKey = "AIzaSyCIXQC6hDwwpLD6Fwc_Ksy0w4PDwyRyAqk";
+  const finalApiKey = apiKey || "AIzaSyA4ur4a05rrGSH4OjVyfNHGG5BD3gAbyuc";
+
   const model = (modelName && modelName.includes("gemini")) ? modelName : "gemini-2.5-flash-lite"; // 💡 PRO TIP: Flash-Lite often has more capacity than standard Flash
 
   for (let i = 0; i < retries; i++) {
