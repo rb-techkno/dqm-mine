@@ -19,6 +19,7 @@ models/
 
 .env
 server/.env
+client/.env
 
 # Editor directories and files
 .vscode/*

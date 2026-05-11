@@ -1,5 +1,7 @@
+const API_BASE = import.meta.env.VITE_API_URL;
+
 export const connectDatabase = async (payload) => {
-  const response = await fetch("/api/connect", {
+  const response = await fetch(`${API_BASE}/connect`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

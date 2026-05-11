@@ -1,5 +1,7 @@
+const API_BASE = import.meta.env.VITE_API_URL;
+
 export const fetchApiHealth = async () => {
-  const response = await fetch("/api/health");
+  const response = await fetch(`${API_BASE}/health`);
   if (!response.ok) {
     throw new Error("Unable to fetch API health.");
   }
@@ -7,7 +9,7 @@ export const fetchApiHealth = async () => {
 };
 
 export const fetchDatabaseStatus = async () => {
-  const response = await fetch("/api/db/status");
+  const response = await fetch(`${API_BASE}/db/status`);
   if (!response.ok) {
     throw new Error("Unable to fetch database status.");
   }
