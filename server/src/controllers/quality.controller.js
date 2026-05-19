@@ -20,9 +20,14 @@ export const qualitySummaryHandler = async (_req, res) => {
   console.log("INside qualitySummary");
   try {
     const summary = await getQualitySummary();
+    console.log("THis is the quality summary:");
     console.log(summary);
     return res.status(200).json(summary);
   } catch (_error) {
+    
+    console.log("This is the error in quality summary handler:");
+    console.log(_error);
+    
     return res.status(200).json({
       overallScore: 0,
       passedChecks: 0,
@@ -35,5 +40,6 @@ export const qualitySummaryHandler = async (_req, res) => {
         validity: 0,
       },
     });
+
   }
 };

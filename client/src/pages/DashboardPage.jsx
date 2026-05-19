@@ -28,6 +28,7 @@ function DashboardPage() {
   const [metrics, setMetrics] = useState(null);
   const [qualityData, setQualityData] = useState(null);
   const [activeInsightIndex, setActiveInsightIndex] = useState(0);
+  const [insights , setInsights] = useState(null);
   const reportRef = useRef(null);
   const pdfRef = useRef(null); 
 
@@ -78,8 +79,10 @@ function DashboardPage() {
 
       console.log(quality);
 
+      console.log(data.insights);
       setMetrics(result);
       setQualityData(quality);
+      setInsights(data.insights);
 
       setError(null);
     } catch (err) {
@@ -555,33 +558,106 @@ const handleDownloadPdf = async (elementRef) => {
 
   // currentY = doc.lastAutoTable.finalY + 30;
 
-  // ─── Insights ───
+// ─── AI Insights ───
+if (currentY > pageHeight - 180) {
+  doc.addPage();
+  currentY = 40;
+}
+
+doc.setFontSize(14);
+doc.setTextColor(0, 0, 0);
+doc.text("AI Insights", 40, currentY);
+
+currentY += 25;
+
+// ─── Summary ───
+if (insights?.summary) {
+  doc.setFontSize(11);
+  doc.setTextColor(30, 41, 59);
+
+  const summaryLines = doc.splitTextToSize(
+    `Summary: ${insights.summary}`,
+    pageWidth - 80
+  );
+
+  doc.text(summaryLines, 40, currentY);
+
+  currentY += summaryLines.length * 14 + 15;
+}
+
+// ─── Health Score ───
+if (insights?.healthScore !== undefined) {
+  doc.setFontSize(11);
+
+  doc.text(
+    `Health Score: ${insights.healthScore}`,
+    40,
+    currentY
+  );
+
+  currentY += 20;
+}
+
+// ─── Critical Issues ───
+if (insights?.criticalIssues?.length > 0) {
+  doc.setFontSize(12);
+  doc.text("Critical Issues", 40, currentY);
+
+  currentY += 15;
+
+  insights.criticalIssues.forEach((item, i) => {
+    if (currentY > pageHeight - 80) {
+      doc.addPage();
+      currentY = 40;
+    }
+
+    doc.setFillColor(248, 250, 252);
+    doc.roundedRect(40, currentY, pageWidth - 80, 50, 6, 6, "F");
+
+    doc.setFontSize(9);
+    doc.setTextColor(51, 65, 85);
+
+    const issueText =
+      `Issue: ${item.issue}\n` +
+      `Target: ${item.target}\n` +
+      `Severity: ${item.severity}\n` +
+      `Impact: ${item.impact}\n` +
+      `Fix: ${item.fix}`;
+
+    const split = doc.splitTextToSize(issueText, pageWidth - 120);
+
+    doc.text(split, 50, currentY + 15);
+
+    currentY += 65;
+  });
+}
+
+// ─── Recommendations ───
+if (insights?.recommendations?.length > 0) {
   if (currentY > pageHeight - 100) {
     doc.addPage();
     currentY = 40;
   }
 
-  doc.setFontSize(14);
-  doc.text("AI Insights", 40, currentY);
+  doc.setFontSize(12);
+  doc.setTextColor(0, 0, 0);
+  doc.text("Recommendations", 40, currentY);
 
-  (extracted?.insights?.criticalIssues || []).forEach((item, i) => {
-    const y = currentY + 20 + i * 40;
+  currentY += 20;
 
-    doc.setFillColor(248, 250, 252);
-    doc.roundedRect(40, y, pageWidth - 80, 30, 6, 6, "F");
+  doc.setFontSize(10);
 
-    doc.setFontSize(9);
-    doc.setTextColor(51, 65, 85);
+  insights.recommendations.forEach((rec) => {
+    const recLines = doc.splitTextToSize(
+      `• ${rec}`,
+      pageWidth - 100
+    );
 
-    const text = `${item.issue} (${item.target}) → ${item.fix}`;
-    const split = doc.splitTextToSize(text, pageWidth - 120);
+    doc.text(recLines, 50, currentY);
 
-    doc.text(split, 50, y + 15);
-
-    if (i === (extracted?.insights?.criticalIssues.length - 1)) {
-      currentY = y + 50;
-    }
+    currentY += recLines.length * 12 + 10;
   });
+}
 
   // ─── Footer ───
   const totalPages = doc.internal.getNumberOfPages();
@@ -872,14 +948,64 @@ const handleDownloadPdf = async (elementRef) => {
               <Badge variant="success">Actionable</Badge>
             </div>
 
-            <div
+            {/* <div
               className="rounded-lg border-l-4 pl-4 py-2"
               style={{ borderLeftColor: "var(--primary)" }}
             >
               <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                 {hasInsights ? selectedInsight : "New insights will appear here once monitoring detects patterns."}
               </p>
-            </div>
+            </div> */}
+            {insights && (
+  <div className="space-y-6">
+
+    {/* Summary */}
+    <div className="bg-white shadow rounded p-4">
+      <h4 className="mt-1 text-base font-semibold">Summary</h4>
+      <p>{insights.summary}</p>
+    </div>
+
+    {/* Health Score */}
+    <div className="bg-white shadow rounded p-4">
+      <h4 className="mt-1 text-base font-semibold">Health Score</h4>
+      <p>{insights.healthScore}</p>
+    </div>
+
+    {/* Critical Issues */}
+    <div className="bg-white shadow rounded p-4">
+      <h4 className="mt-1 text-base font-semibold">Critical Issues</h4>
+
+      {insights.criticalIssues?.length > 0 ? (
+        insights.criticalIssues.map((issue, index) => (
+          <div
+            key={index}
+            className="border rounded p-3 mb-3 bg-red-50"
+          >
+            <p><strong>Issue:</strong> {issue.issue}</p>
+            <p><strong>Target:</strong> {issue.target}</p>
+            <p><strong>Severity:</strong> {issue.severity}</p>
+            <p><strong>Impact:</strong> {issue.impact}</p>
+            <p><strong>Fix:</strong> {issue.fix}</p>
+          </div>
+        ))
+      ) : (
+        <p>No critical issues found.</p>
+      )}
+    </div>
+
+    {/* Recommendations */}
+    <div className="bg-white shadow rounded p-4">
+      <h4 className="mt-1 text-base font-semibold">Recommendations</h4>
+
+      <ul className="list-disc pl-6">
+        {insights.recommendations?.map((rec, index) => (
+          <li key={index}>{rec}</li>
+        ))}
+      </ul>
+    </div>
+
+  </div>
+)}
           </div>
         </div>
       </Card>

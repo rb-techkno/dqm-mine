@@ -2,7 +2,7 @@
 import { setTimeout as sleep } from "timers/promises";
 
 export async function callLLM(prompt, modelName, apiKey, retries = 3, delay = 5000) {
-  const finalApiKey = apiKey || "AIzaSyA4ur4a05rrGSH4OjVyfNHGG5BD3gAbyuc";
+  const finalApiKey = apiKey|| process.env.GEMINI_API_KEY;
 
   const model = (modelName && modelName.includes("gemini")) ? modelName : "gemini-2.5-flash-lite"; // 💡 PRO TIP: Flash-Lite often has more capacity than standard Flash
 

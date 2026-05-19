@@ -822,9 +822,9 @@ report.healthScore = calculateHealthScore(report.checks);
 // console.log(report);
 const aiText = await generateAIInsights(report);
 
-// console.log("This is the aiText");
-// console.log(aiText);
-// console.log("THis is aftre ai Text");
+console.log("This is the aiText");
+console.log(aiText);
+console.log("THis is aftre ai Text");
 return {
     ...report, // This passes the checks, columnScores, etc. up the chain
     healthScore: report.healthScore,
@@ -861,6 +861,9 @@ export const getQualitySummary = async () => {
   const dimensions = buildDimensions(checks);
   const passedChecks = checks.filter(c => c.severity === 'info').length;
   const failedChecks = checks.length - passedChecks;
+
+  console.log("This is the final report from getQualitySummary:");
+  console.log(report.insights);
 
   return {
     overallScore,
