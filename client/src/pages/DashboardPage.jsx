@@ -152,7 +152,7 @@ function DashboardPage() {
   //   doc.setTextColor(255, 255, 255);
   //   doc.setFontSize(22);
   //   doc.setFont("helvetica", "bold");
-  //   doc.text("DataGuard Intelligence Report", 40, 45);
+  //   doc.text("DataPulse IQ Intelligence Report", 40, 45);
     
   //   doc.setFontSize(10);
   //   doc.setFont("helvetica", "normal");
@@ -241,10 +241,10 @@ function DashboardPage() {
   //   const footerY = doc.internal.pageSize.getHeight() - 30;
   //   doc.setFontSize(8);
   //   doc.setTextColor(148, 163, 184);
-  //   doc.text("DataGuard Platform • Automated Quality & Governance Report", 40, footerY);
+  //   doc.text("DataPulse IQ Platform • Automated Quality & Governance Report", 40, footerY);
   //   doc.text(`Page 1 of 1`, pageWidth - 80, footerY);
 
-  //   doc.save(`dataguard-report-${new Date().toISOString().slice(0, 10)}.pdf`);
+  //   doc.save(`DataPulse IQ-report-${new Date().toISOString().slice(0, 10)}.pdf`);
   // };
 
 // const handleDownloadPdf = async (elementRef) => { // 👈 Make it async and pass the ref
@@ -266,7 +266,7 @@ function DashboardPage() {
 //   doc.setTextColor(255, 255, 255);
 //   doc.setFontSize(22);
 //   doc.setFont("helvetica", "bold");
-//   doc.text("DataGuard Intelligence Report", 40, 45);
+//   doc.text("DataPulse IQ Intelligence Report", 40, 45);
   
 //   doc.setFontSize(10);
 //   doc.setFont("helvetica", "normal");
@@ -391,11 +391,11 @@ function DashboardPage() {
 //     doc.setFontSize(8);
 //     doc.setFont("helvetica", "normal");
 //     doc.setTextColor(148, 163, 184);
-//     doc.text("DataGuard Platform • Automated Quality & Governance Report", 40, footerY);
+//     doc.text("DataPulse IQ Platform • Automated Quality & Governance Report", 40, footerY);
 //     doc.text(`Page ${i} of ${totalPages}`, pageWidth - 80, footerY);
 //   }
 
-//   doc.save(`dataguard-report-${new Date().toISOString().slice(0, 10)}.pdf`);
+//   doc.save(`DataPulse IQ-report-${new Date().toISOString().slice(0, 10)}.pdf`);
 // };
 
 const handleDownloadPdf = async (elementRef) => {
@@ -423,7 +423,7 @@ const handleDownloadPdf = async (elementRef) => {
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(22);
   doc.setFont("helvetica", "bold");
-  doc.text("DataGuard Intelligence Report", 40, 45);
+  doc.text("DataPulse IQ Intelligence Report", 40, 45);
 
   doc.setFontSize(10);
   doc.setTextColor(200, 200, 200);
@@ -668,11 +668,11 @@ if (insights?.recommendations?.length > 0) {
 
     doc.setFontSize(8);
     doc.setTextColor(148, 163, 184);
-    doc.text("DataGuard Platform • Automated Report", 40, footerY);
+    doc.text("DataPulse IQ Platform • Automated Report", 40, footerY);
     doc.text(`Page ${i} of ${totalPages}`, pageWidth - 80, footerY);
   }
 
-  doc.save(`dataguard-report-${new Date().toISOString().slice(0, 10)}.pdf`);
+  doc.save(`DataPulse IQ-report-${new Date().toISOString().slice(0, 10)}.pdf`);
 };
 
   const stats = [
@@ -683,7 +683,7 @@ if (insights?.recommendations?.length > 0) {
       iconColor: "var(--text-primary)",
       iconBg: "var(--bg-toggle)",
       valueColor: "var(--text-primary)",
-      description: "Total number of databases, data warehouses, or APIs currently integrated with DataGuard.",
+      description: "Total number of databases, data warehouses, or APIs currently integrated with DataPulse IQ.",
     },
     {
       label: "Monitored Tables",

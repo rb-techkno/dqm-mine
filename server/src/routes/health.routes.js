@@ -6,7 +6,7 @@ const healthRouter = Router();
 healthRouter.get("/", (_req, res) => {
   res.json({
     status: "ok",
-    app: "DataGuard API",
+    app: "DataPulse IQ API",
     database: config.dbType,
     timestamp: new Date().toISOString(),
   });

@@ -77,7 +77,7 @@ function App() {
             {!sidebarCollapsed && (
               <div>
                 <h1 className="text-sm font-bold tracking-tight">
-                  DataGuard
+                  DataPulse IQ
                 </h1>
                 <p className="text-[10px] font-medium" style={{ color: "var(--text-muted)" }}>
                   Data Intelligence

@@ -1,7 +1,7 @@
 {
   "name": "dataguard-server",
   "version": "1.0.0",
-  "description": "DataGuard Express backend",
+  "description": "DataPulse IQ Express backend",
   "type": "module",
   "main": "src/index.js",
   "scripts": {
